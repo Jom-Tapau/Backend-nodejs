@@ -10,8 +10,10 @@ app.use(cors());
 
 //user=dbuser2;
 //password=AnOyXN8v59bGpYJE
+const user = process.env.DB_USER;
+const password = process.env.DB_PASS;
 
-const uri = 'mongodb+srv://dbuser2:AnOyXN8v59bGpYJE@cluster0.in8lp.mongodb.net/?retryWrites=true&w=majority';
+const uri = `mongodb+srv://${user}:${password}@cluster0.in8lp.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
