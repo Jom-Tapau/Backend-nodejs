@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 async function run (){
     try{
         await client.connect();
-        // const foodCollection = client.db("Jom-tapau").collection("food");
+        const foodCollection = client.db("Jom-tapau").collection("food");
 
         app.get('/', (req, res)=>{
             res.send('Hello World');
