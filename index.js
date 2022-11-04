@@ -8,8 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//user=dbuser2;
-//password=AnOyXN8v59bGpYJE
 const user = process.env.DB_USER;
 const password = process.env.DB_PASS;
 
