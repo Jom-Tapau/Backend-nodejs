@@ -11,7 +11,7 @@ app.use(cors());
 const user = process.env.DB_USER;
 const password = process.env.DB_PASS;
 
-const uri = `mongodb+srv://${user}:${password}@cluster0.xpxsbcb.mongodb.net/?retryWrites=true&w=majority"`;
+const uri = `mongodb+srv://${user}:${password}@cluster0.xpxsbcb.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,16 +21,25 @@ const client = new MongoClient(uri, {
 async function run (){
     try{
         await client.connect();
-        const foodCollection = client.db("Jom-tapau").collection("food");
+         const foodCollection = client.db("Jom-tapau").collection("foodCollection");
+          app.post("/food",async (req,res)=>{
+            const newFood = req.body;
+            console.log("adding new food" , newFood);
+            const result = await foodCollection.insertOne(newFood);
+           res.send(result);
+           
 
-        app.get('/', (req, res)=>{
-            res.send('Hello World');
-        });
+          });
+       
+   
 
     }finally{
     }
 }
 run().catch(console.dir);
+app.get('/', (req, res)=>{
+    res.send('Hello World');
+});
 app.listen(port,()=>{
     console.log('Listening on port',port);
 })
