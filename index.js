@@ -22,17 +22,15 @@ async function run (){
     try{
         await client.connect();
          const foodCollection = client.db("Jom-tapau").collection("foodCollection");
+         app.get('/food',(req,res)=>{
+            
+         })
           app.post("/food",async (req,res)=>{
             const newFood = req.body;
             console.log("adding new food" , newFood);
             const result = await foodCollection.insertOne(newFood);
            res.send(result);
-           
-
           });
-       
-   
-
     }finally{
     }
 }
