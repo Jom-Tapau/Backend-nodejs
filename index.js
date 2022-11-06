@@ -32,6 +32,16 @@ async function run () {
         res.send(result);
     })
 
+    // get food by id 
+    app.get('/food/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query ={_id:ObjectId(id)}
+        const result = await foodCollection.find(query);
+
+        res.send(result);
+        console.log(id);
+    })
+
     app.post('/food', async (req, res) => {
       const newFood = req.body
       console.log('adding new food', newFood)
