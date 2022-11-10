@@ -26,6 +26,8 @@ async function run () {
 
     const userCollection = client.db('Jom-tapau').collection('userCollection') //collection of user items
 
+    const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
+
     //get data from the food collection
     app.get('/food', async (req, res) => {
       const query = {}
