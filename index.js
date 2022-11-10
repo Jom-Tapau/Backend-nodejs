@@ -52,6 +52,16 @@ async function run () {
       const result = await foodCollection.insertOne(newFood)
       res.send(result)
     })
+
+    // post user information to mongodb
+    app.post('/user', async (req, res) => {
+      const newUser = req.body;
+      console.log('Adding new user', newUser);
+      const result = await userCollection.insertOne(newUser);
+      res.send(result);
+    })
+
+    //delete user information from mongodb
   } finally {
   }
 }
