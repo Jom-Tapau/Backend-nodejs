@@ -69,6 +69,7 @@ async function run () {
       res.send(result)
     })
 
+    //TODO: get food item by category
     //TODO: delete user by id
     //TODO: post order to order list
     //TODO: get all order list
