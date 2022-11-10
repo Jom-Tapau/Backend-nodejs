@@ -63,6 +63,13 @@ async function run () {
       res.send(result)
     })
 
+    app.get('/user',async(req,res)=>{
+      const query={};
+      const cursor = await userCollection.find(query)
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
     //get user by id
     app.get('/user/:id', async (req, res) => {
       const id = req.params.id
