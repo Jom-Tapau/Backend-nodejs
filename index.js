@@ -58,9 +58,19 @@ async function run () {
     // post user information to mongodb
     app.post('/user', async (req, res) => {
       const newUser = req.body
-      console.log('Adding new user', newUser)
-      const result = await userCollection.insertOne(newUser)
-      res.send(result)
+      const userEmail = req.body.email;
+      console.log(userEmail);
+
+      const userExist  = await userCollection.findOne({email: userEmail}, {$exists: true});
+
+      if(userExist){
+        console.log('user already exists')
+      }
+      else{
+        const result = await userCollection.insertOne(newUser);
+        res.send(result);
+        console.log(result);
+      }
     })
 
     app.get('/user',async(req,res)=>{
