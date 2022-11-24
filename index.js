@@ -1,10 +1,10 @@
-const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
 const port = 5000 || PROCESS.ENV.PORT
 
-//middleware 
+//middleware
 const app = express()
 app.use(express.json())
 app.use(cors())
@@ -22,20 +22,23 @@ const client = new MongoClient(uri, {
 async function run () {
   try {
     await client.connect()
-    const foodCollection = client.db('Jom-tapau').collection('foodCollection');//collection of food items
+    const foodCollection = client.db('Jom-tapau').collection('foodCollection') //collection of food items
 
-    const userCollection = client.db('Jom-tapau').collection('userCollection'); //collection of user items
+    const userCollection = client.db('Jom-tapau').collection('userCollection') //collection of user items
+
+    const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
 
     //get data from the food collection
-    app.get('/food',async(req,res)=>{
-        const query ={};
-        const cursor = await foodCollection.find(query);
-        const result = await cursor.toArray();
+    app.get('/food', async (req, res) => {
+      const query = {}
+      const cursor = await foodCollection.find(query)
+      const result = await cursor.toArray()
 
-        res.send(result);
+      res.send(result)
     })
 //delete food by id
 
+<<<<<<< HEAD
 app.delete('/food/:id',async (req,res)=>{
 
   const id = req.params.id;
@@ -46,9 +49,16 @@ app.delete('/food/:id',async (req,res)=>{
         const id = req.params.id;
         const query ={_id:ObjectId(id)}
         const result = await foodCollection.findOne(query);
+=======
+    // get food by id
+    app.get('/food/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: ObjectId(id) }
+      const result = await foodCollection.findOne(query)
+>>>>>>> 0bd66df301a6d9ecd91c39b7ebfc7cfe0b9c3f5d
 
-        res.send(result);
-        console.log(id);
+      res.send(result)
+      console.log(id)
     })
 
 
@@ -59,6 +69,50 @@ app.delete('/food/:id',async (req,res)=>{
       const result = await foodCollection.insertOne(newFood)
       res.send(result)
     })
+
+    // post user information to mongodb
+    app.post('/user', async (req, res) => {
+      const newUser = req.body
+      const userEmail = req.body.email;
+      const query = {email:newUser.email}
+
+      if(userEmail){
+        const userExist  = await userCollection.findOne(query);
+
+      if(userExist){
+        const error={errorMessage:'user already exists'};
+        console.log(userExist)
+        return res.send(error)
+      }
+      
+      const result = await userCollection.insertOne(newUser);
+      console.log('email pai nai: '+userEmail);
+      res.send(result);
+      }
+    })
+
+    app.get('/user',async(req,res)=>{
+      const query={};
+      const cursor = await userCollection.find(query)
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    //get user by id
+    app.get('/user/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: ObjectId(id) }
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+
+    //TODO: get food item by category
+    //TODO: delete user by id
+    //TODO: post order to order list
+    //TODO: get all order list
+    //TODO: get a specific users' order list
+    //TODO: update an order when rider accept the order and complete the order
+    //TODO: delete a specific food by id
   } finally {
   }
 }
