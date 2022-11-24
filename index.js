@@ -34,7 +34,13 @@ async function run () {
 
         res.send(result);
     })
+//delete food by id
 
+app.delete('/food/:id',async (req,res)=>{
+
+  const id = req.params.id;
+  
+})
     // get food by id 
     app.get('/food/:id',async(req,res)=>{
         const id = req.params.id;
@@ -44,6 +50,7 @@ async function run () {
         res.send(result);
         console.log(id);
     })
+
 
     // post a food on the server
     app.post('/food', async (req, res) => {
