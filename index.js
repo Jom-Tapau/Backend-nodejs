@@ -90,7 +90,18 @@ async function run () {
       const result = await userCollection.findOne(query)
       res.send(result)
     })
+    //update an user to rider
+    app.put('/addRider',async (req, res) => {
+      const id = req.body.id;
+      console.log(id);
+      const filter =  { _id: ObjectId(id)}
+      const options ={upset:true};
+      const update = {$set:{rider:true}}
 
+      const result = await userCollection.updateOne(filter,update,options);
+
+      console.log(result);
+    })
     //TODO: get food item by category
     //TODO: delete user by id
     //TODO: post order to order list
