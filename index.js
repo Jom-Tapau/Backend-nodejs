@@ -36,6 +36,7 @@ async function run () {
 
       res.send(result)
     })
+//delete food by id
 
     // get food by id
     app.get('/food/:id', async (req, res) => {
@@ -46,6 +47,7 @@ async function run () {
       res.send(result)
       console.log(id)
     })
+
 
     // post a food on the server
     app.post('/food', async (req, res) => {
@@ -108,14 +110,16 @@ async function run () {
     //TODO: get all order list
     //TODO: get a specific users' order list
     //TODO: update an order when rider accept the order and complete the order
-    //TODO: delete a specific food by id
+    //TODO: delete a specific food by id -
   } finally {
   }
 }
 run().catch(console.dir)
 app.get('/', (req, res) => {
-  res.send('Hello World')
-})
+  res.send('Hello World');
+});
 app.listen(port, () => {
-  console.log('Listening on port', port)
-})
+  console.log('Listening on port', port);
+});
+
+
