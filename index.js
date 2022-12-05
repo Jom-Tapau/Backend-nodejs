@@ -106,7 +106,7 @@ async function run () {
     })
 
     //reject teh rider 
-    app.put('/deleteRider',async (req,re)=>{
+    app.put('/rejectRider',async (req,res)=>{
       const id = req.body.id;
       const filter = {_id: ObjectId(id)}
       const options = {upset:true}
