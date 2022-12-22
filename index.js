@@ -124,7 +124,13 @@ async function run () {
       const result = await foodCollection.deleteOne(filter);
       res.send(result)
       console.log(result)
-      
+    })
+    app.get('food/:id',async (req,res)=>{
+      const id = req.params.i;
+      const filter = {_id:ObjectId(id)}
+      const result = await foodCollection.findOne(filter);
+      res.send(result);
+      console.log(result);
     })
     //TODO: get food item by category
     //TODO: delete user by id
@@ -132,7 +138,6 @@ async function run () {
     //TODO: get all order list
     //TODO: get a specific users' order list
     //TODO: update an order when rider accept the order and complete the order
-    //TODO: delete a specific food by id -
   } finally {
   }
 }
