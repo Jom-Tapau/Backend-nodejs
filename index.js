@@ -117,8 +117,9 @@ async function run () {
     })
 
     //delete food by id 
-    app.delete('/foodDelete/:id',async(req, res)=>{
+    app.get('/foodDelete/:id',async(req, res)=>{
       const id = req.params.id;
+      console.log(id)
       const filter = { _id: ObjectId(id)}
       const result = await foodCollection.deleteOne(filter);
       res.send(result)
