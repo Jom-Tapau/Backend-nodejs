@@ -126,11 +126,22 @@ async function run () {
       console.log(result)
     })
     app.get('food/:id',async (req,res)=>{
-      const id = req.params.i;
+      const id = req.params.id;
       const filter = {_id:ObjectId(id)}
       const result = await foodCollection.findOne(filter);
       res.send(result);
       console.log(result);
+    })
+    app.get('/searchFood',async (req,res)=>{
+      // const params = req.params.string;
+      const query = {}
+      const cursor = await foodCollection.find(query)
+      const results = await cursor.toArray()
+      // const newResult = results.filter(result=>result.name.toLowerCase().
+      // includes(params.toLowerCase()))
+
+      console.log(results);
+      res.send(results)
     })
     //TODO: get food item by category
     //TODO: delete user by id
