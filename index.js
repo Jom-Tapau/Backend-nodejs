@@ -132,16 +132,18 @@ async function run () {
       res.send(result);
       console.log(result);
     })
-    app.get('/searchFood',async (req,res)=>{
-      // const params = req.params.string;
+    //search food 
+    app.post('/searchFood',async (req,res)=>{
+      const searchText = req.body.text;
       const query = {}
       const cursor = await foodCollection.find(query)
       const results = await cursor.toArray()
       const newResult = results.filter(result=>result.name.toLowerCase().
-      includes("goreng"))
+      includes(searchText))
 
       console.log(results);
       res.send(newResult)
+      console.log(req.body.text)
     })
     //TODO: get food item by category
     //TODO: delete user by id
