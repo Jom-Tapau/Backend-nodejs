@@ -137,11 +137,11 @@ async function run () {
       const query = {}
       const cursor = await foodCollection.find(query)
       const results = await cursor.toArray()
-      // const newResult = results.filter(result=>result.name.toLowerCase().
-      // includes(params.toLowerCase()))
+      const newResult = results.filter(result=>result.name.toLowerCase().
+      includes("goreng"))
 
       console.log(results);
-      res.send(results)
+      res.send(newResult)
     })
     //TODO: get food item by category
     //TODO: delete user by id
