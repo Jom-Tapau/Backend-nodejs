@@ -125,6 +125,7 @@ async function run () {
       res.send(result)
       console.log(result)
     })
+    //get food by id
     app.get('food/:id',async (req,res)=>{
       const id = req.params.id;
       const filter = {_id:ObjectId(id)}
@@ -144,6 +145,18 @@ async function run () {
       console.log(results);
       res.send(newResult)
       console.log(req.body.text)
+    })
+    //update food item
+    app.put('/food/:id',async(req,res)=>{
+      const foodID = req.params.id;
+      const foodDetails = req.body
+      const filter = {_id: ObjectId(foodID)}
+      const options = {upset:true}
+      const update = {$set:foodDetails}
+      const result = await foodCollection.updateOne(filter,update, options)
+
+      console.log(result)
+      console.log(foodDetails)
     })
     //TODO: get food item by category
     //TODO: delete user by id
