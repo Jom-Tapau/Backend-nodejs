@@ -28,34 +28,6 @@ async function run () {
 
     const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
 
-    //get data from the food collection
-    app.get('/food', async (req, res) => {
-      const query = {}
-      const cursor = await foodCollection.find(query)
-      const result = await cursor.toArray()
-
-      res.send(result)
-    })
-
-    // get food by id
-    app.get('/food/:id', async (req, res) => {
-      const id = req.params.id
-      const query = { _id: ObjectId(id) }
-      const result = await foodCollection.findOne(query)
-
-      res.send(result)
-      console.log(id)
-    })
-
-
-    // post a food on the server
-    app.post('/food', async (req, res) => {
-      const newFood = req.body
-      console.log('adding new food', newFood)
-      const result = await foodCollection.insertOne(newFood)
-      res.send(result)
-    })
-
     // post user information to mongodb
     app.post('/user', async (req, res) => {
       const newUser = req.body
@@ -76,7 +48,8 @@ async function run () {
       res.send(result);
       }
     })
-
+    
+    //get all users
     app.get('/user',async(req,res)=>{
       const query={};
       const cursor = await userCollection.find(query)
@@ -114,6 +87,23 @@ async function run () {
       const result = await userCollection.updateOne(filter,update,options)
 
       console.log(result)
+    })
+
+    //get data from the food collection
+    app.get('/food', async (req, res) => {
+      const query = {}
+      const cursor = await foodCollection.find(query)
+      const result = await cursor.toArray()
+
+      res.send(result)
+    })
+
+    // post a food on the server
+    app.post('/food', async (req, res) => {
+      const newFood = req.body
+      console.log('adding new food', newFood)
+      const result = await foodCollection.insertOne(newFood)
+      res.send(result)
     })
 
     //delete food by id 
@@ -156,6 +146,7 @@ async function run () {
       const result = await foodCollection.updateOne(filter,update, options)
 
       console.log(result)
+      res.send(result)
       console.log(foodDetails)
     })
     //TODO: get food item by category
