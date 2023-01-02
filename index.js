@@ -27,7 +27,14 @@ async function run () {
     const userCollection = client.db('Jom-tapau').collection('userCollection') //collection of user items
 
     const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
-
+    //find user using mail
+    app.post('/findUser',async (req, res) => {
+      const email = req.body.email;
+      console.log(email)
+      const query = {email:email};
+      const result = await userCollection.findOne(query);
+      res.send(result);
+    })
     // post user information to mongodb
     app.post('/user', async (req, res) => {
       const newUser = req.body
