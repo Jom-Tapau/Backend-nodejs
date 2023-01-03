@@ -9,6 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 const multer = require('multer');
+const upload = multer({dest:'uploads/'})
 const user = process.env.DB_USER
 const password = process.env.DB_PASS
 
@@ -118,6 +119,7 @@ async function run () {
       console.log('adding new food', newFood)
       const result = await foodCollection.insertOne(newFood)
       res.send(result)
+      console.log(newFood)
     })
 
     //delete food by id 
