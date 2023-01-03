@@ -8,7 +8,7 @@ const port = 5000 || PROCESS.ENV.PORT
 const app = express()
 app.use(express.json())
 app.use(cors())
-
+const multer = require('multer');
 const user = process.env.DB_USER
 const password = process.env.DB_PASS
 
