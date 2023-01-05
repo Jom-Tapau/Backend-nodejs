@@ -9,6 +9,8 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+const stripe = require("stripe")('sk_test_51MMoiTGFkQKcRUEsTZeNAQCl8HGEsoTTYy1Lf2KfBsJKpOCcp44rzQVzUXOzyVkWkEIG9zj1TbzsQvsWpcJAPwhK00RLdVbM1g');
+
 const user = process.env.DB_USER
 const password = process.env.DB_PASS
 
@@ -37,7 +39,7 @@ async function run () {
     })
     // post user information to mongodb
     app.post('/user', async (req, res) => {
-      const newUser = req.body
+      const newUser = req.bodynod
       const userEmail = req.body.email;
       const query = {email:newUser.email}
 
@@ -163,6 +165,23 @@ async function run () {
       res.send(result)
       console.log(foodDetails)
     })
+
+    //create-payment-intent
+    app.post('/create-payment-intent', async(req,res)=>{
+      const {total} = req.body
+      const amountPay = total*100;
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount:amountPay,
+        currency:'usd',
+        automatic_payment_methods:{
+          enabled:true
+        }
+      })
+      console.log({clientSecret:paymentIntent.client_secret})
+      res.send({clientSecret:paymentIntent.client_secret})
+    })
+
     //TODO: get food item by category
     //TODO: delete user by id
     //TODO: post order to order list
