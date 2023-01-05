@@ -1,15 +1,17 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const express = require('express')
 const cors = require('cors')
+var bodyParser = require('body-parser')
 require('dotenv').config()
 const port = 5000 || PROCESS.ENV.PORT
-
+const multer= require('multer')
+const upload =multer({dest:'uploads/'})
 //middleware
 const app = express()
 app.use(express.json())
 app.use(cors())
-const multer = require('multer');
-const upload = multer({dest:'uploads/'})
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 const user = process.env.DB_USER
 const password = process.env.DB_PASS
 
@@ -114,12 +116,12 @@ async function run () {
     })
 
     // post a food on the server
-    app.post('/food', async (req, res) => {
+    app.post('/food',upload.single('img'), async (req, res) => {
       const newFood = req.body
-      console.log('adding new food', newFood)
+      console.log('adding new food', req.body, req.file)
       const result = await foodCollection.insertOne(newFood)
       res.send(result)
-      console.log(newFood)
+     
     })
 
     //delete food by id 
@@ -176,7 +178,7 @@ async function run () {
 }
 run().catch(console.dir)
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Welcome to Jom Tapau Server');
 });
 app.listen(port, () => {
   console.log('Listening on port', port);
