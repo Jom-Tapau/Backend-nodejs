@@ -175,6 +175,14 @@ async function run () {
       console.log(result)
     })
 
+    //get all order
+    app.get('/allOrders',async (req,res)=>{
+      const query = {}
+      const cursor = await orderCollection.find(query);
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     //create-payment-intent
     app.post('/create-payment-intent', async(req,res)=>{
       const {total} = req.body
@@ -192,8 +200,6 @@ async function run () {
     })
 
     //TODO: get food item by category
-    //TODO: delete user by id
-    //TODO: post order to order list
     //TODO: get all order list
     //TODO: get a specific users' order list
     //TODO: update an order when rider accept the order and complete the order
