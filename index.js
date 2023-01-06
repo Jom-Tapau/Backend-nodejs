@@ -31,7 +31,7 @@ async function run () {
     const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
     //find user using mail
     app.post('/findUser',async (req, res) => {
-      const email = req.body.email;
+      const {email} = req.body;
       console.log(email)
       const query = {email:email};
       const result = await userCollection.findOne(query);
@@ -39,7 +39,7 @@ async function run () {
     })
     // post user information to mongodb
     app.post('/user', async (req, res) => {
-      const newUser = req.bodynod
+      const newUser = req.body
       const userEmail = req.body.email;
       const query = {email:newUser.email}
 
@@ -166,6 +166,15 @@ async function run () {
       console.log(foodDetails)
     })
 
+    //post order
+    app.post('/postOrder',async(req,res)=>{
+      const {newOrder} = req.body;
+      console.log(newOrder)
+      const result = await orderCollection.insertOne(newOrder);
+      res.send(result)
+      console.log(result)
+    })
+
     //create-payment-intent
     app.post('/create-payment-intent', async(req,res)=>{
       const {total} = req.body
@@ -178,8 +187,8 @@ async function run () {
           enabled:true
         }
       })
-      console.log({clientSecret:paymentIntent.client_secret})
-      res.send({clientSecret:paymentIntent.client_secret})
+      console.log({ClientSecret:paymentIntent.client_secret})
+      res.send({ClientSecret:paymentIntent.client_secret})
     })
 
     //TODO: get food item by category
