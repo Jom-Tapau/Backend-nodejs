@@ -154,6 +154,9 @@ async function run () {
       res.send(newResult)
       console.log(req.body.text)
     })
+    app.get('/users/:id', async(req,res)=>{
+      const id = req.params.id;
+    })
     //update food item
     app.put('/food/:id',async(req,res)=>{
       const foodID = req.params.id;
