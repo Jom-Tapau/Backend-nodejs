@@ -178,7 +178,7 @@ async function run () {
 }
 run().catch(console.dir)
 app.get('/', (req, res) => {
-  res.send('Welcome to Jom Tapau Server');
+  res.send('Welcome to Jom Tapau');
 });
 app.listen(port, () => {
   console.log('Listening on port', port);
