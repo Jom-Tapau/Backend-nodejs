@@ -4,14 +4,14 @@ const cors = require('cors')
 var bodyParser = require('body-parser')
 require('dotenv').config()
 const port = 5000 || PROCESS.ENV.PORT
-const multer= require('multer')
-const upload =multer({dest:'uploads/'})
+
 //middleware
 const app = express()
 app.use(express.json())
 app.use(cors())
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
+
+const stripe = require("stripe")('sk_test_51MMoiTGFkQKcRUEsTZeNAQCl8HGEsoTTYy1Lf2KfBsJKpOCcp44rzQVzUXOzyVkWkEIG9zj1TbzsQvsWpcJAPwhK00RLdVbM1g');
+
 const user = process.env.DB_USER
 const password = process.env.DB_PASS
 
@@ -32,7 +32,7 @@ async function run () {
     const orderCollection = client.db('Jom-tapau').collection('orderCollection') //collection of order items
     //find user using mail
     app.post('/findUser',async (req, res) => {
-      const email = req.body.email;
+      const {email} = req.body;
       console.log(email)
       const query = {email:email};
       const result = await userCollection.findOne(query);
@@ -116,7 +116,7 @@ async function run () {
     })
 
     // post a food on the server
-    app.post('/food',upload.single('img'), async (req, res) => {
+    app.post('/food', async (req, res) => {
       const newFood = req.body
       console.log('adding new food', req.body, req.file)
       const result = await foodCollection.insertOne(newFood)
@@ -192,9 +192,41 @@ async function run () {
       res.send(result)
       console.log(foodDetails)
     })
+
+    //post order
+    app.post('/postOrder',async(req,res)=>{
+      const {newOrder} = req.body;
+      console.log(newOrder)
+      const result = await orderCollection.insertOne(newOrder);
+      res.send(result)
+      console.log(result)
+    })
+
+    //get all order
+    app.get('/allOrders',async (req,res)=>{
+      const query = {}
+      const cursor = await orderCollection.find(query);
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
+    //create-payment-intent
+    app.post('/create-payment-intent', async(req,res)=>{
+      const {total} = req.body
+      const amountPay = total*100;
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount:amountPay,
+        currency:'usd',
+        automatic_payment_methods:{
+          enabled:true
+        }
+      })
+      console.log({ClientSecret:paymentIntent.client_secret})
+      res.send({ClientSecret:paymentIntent.client_secret})
+    })
+
     //TODO: get food item by category
-    //TODO: delete user by id
-    //TODO: post order to order list
     //TODO: get all order list
     //TODO: get a specific users' order list
     //TODO: update an order when rider accept the order and complete the order
