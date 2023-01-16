@@ -164,14 +164,9 @@ async function run () {
     //update profile
     app.put('/user/:id', async(req,res)=>{
       const id = req.params.id;
+      const filter ={_id:ObjectId(id)};
       const userDetails = req.body;
-      const filter = {_id: ObjectId(id)}
-      const options = {upset:true}
-      const update = {$set:userDetails}
-      const result = await userCollection.updateOne(filter,update, options)
-
-      console.log(result)
-      res.send(result)
+      const option ={upsert:true};
       console.log(userDetails)
     })
     //update food item
