@@ -167,6 +167,16 @@ async function run () {
       const filter ={_id:ObjectId(id)};
       const userDetails = req.body;
       const option ={upsert:true};
+      const update = {$set:{
+        name:userDetails.name,
+        phoneNumber:userDetails.phoneNumber,
+        matricValue:userDetails.matricValue,
+        address:userDetails.address
+
+      }};
+      const result = await userCollection.updateOne(filter,update, option);
+      res.send(result);
+
       console.log(userDetails)
     })
     //update food item
