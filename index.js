@@ -210,6 +210,10 @@ async function run () {
       res.send(result)
     })
 
+    app.put('/updateRiderOrder',async (req,res)=>{
+      const id = req.body.id
+    })
+
     //create-payment-intent
     app.post('/create-payment-intent', async(req,res)=>{
       const {total} = req.body
