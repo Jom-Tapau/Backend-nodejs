@@ -212,6 +212,11 @@ async function run () {
 
     app.put('/updateRiderOrder',async (req,res)=>{
       const id = req.body.id
+      const riderEmail = req.body.riderEmail
+      const riderName = req.body.riderName
+      console.log(id,riderEmail,riderName)
+      const filter = {_id: ObjectId(id)}
+      const update = {$set:{status:"accepted",riderEmail,riderName}}
     })
 
     //create-payment-intent
