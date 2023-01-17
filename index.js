@@ -1,6 +1,7 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const express = require('express')
 const cors = require('cors')
+var bodyParser = require('body-parser')
 require('dotenv').config()
 const port = 5000 || PROCESS.ENV.PORT
 
@@ -117,9 +118,10 @@ async function run () {
     // post a food on the server
     app.post('/food', async (req, res) => {
       const newFood = req.body
-      console.log('adding new food', newFood)
+      console.log('adding new food', req.body, req.file)
       const result = await foodCollection.insertOne(newFood)
       res.send(result)
+     
     })
 
     //delete food by id 
@@ -151,6 +153,31 @@ async function run () {
       console.log(results);
       res.send(newResult)
       console.log(req.body.text)
+    })
+    app.get('/user/:id', async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const user = await userCollection.findOne(query);
+      res.send(user);
+
+    })
+    //update profile
+    app.put('/user/:id', async(req,res)=>{
+      const id = req.params.id;
+      const filter ={_id:ObjectId(id)};
+      const userDetails = req.body;
+      const option ={upsert:true};
+      const update = {$set:{
+        name:userDetails.name,
+        phoneNumber:userDetails.phoneNumber,
+        matricValue:userDetails.matricValue,
+        address:userDetails.address
+
+      }};
+      const result = await userCollection.updateOne(filter,update, option);
+      res.send(result);
+
+      console.log(userDetails)
     })
     //update food item
     app.put('/food/:id',async(req,res)=>{
@@ -208,7 +235,7 @@ async function run () {
 }
 run().catch(console.dir)
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Welcome to Jom Tapau');
 });
 app.listen(port, () => {
   console.log('Listening on port', port);
