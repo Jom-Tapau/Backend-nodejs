@@ -215,9 +215,10 @@ async function run () {
       const id = req.body.id
       const riderEmail = req.body.riderEmail
       const riderName = req.body.riderName
+      const status = req.body.status;
       console.log(id,riderEmail,riderName)
       const filter = {_id: ObjectId(id)}
-      const update = {$set:{status:"accepted",riderEmail,riderName}}
+      const update = {$set:{status:status,riderEmail,riderName}}
       const options = {upset:true}
 
       const result = await orderCollection.updateOne(filter,update,options)
