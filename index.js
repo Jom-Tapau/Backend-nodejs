@@ -2,6 +2,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const express = require('express')
 const cors = require('cors')
 var bodyParser = require('body-parser')
+const { query } = require('express')
 require('dotenv').config()
 const port = 5000 || PROCESS.ENV.PORT
 
@@ -223,6 +224,20 @@ async function run () {
 
       console.log(result)
       res.send(result)
+    })
+
+    //get all orders of a specific rider
+    app.post('/riderOrders',async(req,res)=>{
+      const email = req.body.riderEmail;
+      console.log(email)
+      const filter={riderEmail:email}
+      const cursor = await orderCollection.find(filter)
+      let result=[];
+
+      if(cursor)
+        result = await cursor.toArray()
+      res.send(result)
+      console.log(result);
     })
 
     //create-payment-intent
