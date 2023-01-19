@@ -217,6 +217,12 @@ async function run () {
       console.log(id,riderEmail,riderName)
       const filter = {_id: ObjectId(id)}
       const update = {$set:{status:"accepted",riderEmail,riderName}}
+      const options = {upset:true}
+
+      const result = await orderCollection.updateOne(filter,update,options)
+
+      console.log(result)
+      res.send(result)
     })
 
     //create-payment-intent
