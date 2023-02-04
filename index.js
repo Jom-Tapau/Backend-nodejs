@@ -241,6 +241,19 @@ async function run () {
       console.log(result);
     })
 
+    //TODO: get a specific users' order list
+    app.post('/findUserOrder',async(req,res)=>{
+      const email = req.body.email;
+      console.log(email)
+      const filter={email:email}
+      const cursor = await orderCollection.find(filter)
+      let result=[];
+
+      if(cursor)
+        result = await cursor.toArray()
+      res.send(result)
+    })
+
     //create-payment-intent
     app.post('/create-payment-intent', async(req,res)=>{
       const {total} = req.body
@@ -259,7 +272,7 @@ async function run () {
 
     //TODO: get food item by category
     //TODO: get all order list
-    //TODO: get a specific users' order list
+    
     //TODO: update an order when rider accept the order and complete the order
   } finally {
   }
